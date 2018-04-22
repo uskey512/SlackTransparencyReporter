@@ -1,0 +1,2 @@
+# SlackTransparencyReporter
+Slack投稿のPublic/Private/DMの割合を投稿します
