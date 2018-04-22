@@ -2,6 +2,7 @@
 import os
 import json
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot
 import requests
 
@@ -16,7 +17,6 @@ SLACK_INHOOK_URL = os.getenv("SLACK_INHOOK_URL")
 CSV_FILE_NAME    = "/tmp/slack_rate.csv"
 GRAPH_FILE_NAME  = "/tmp/message_rate.png"
 
-matplotlib.use('Agg')
 matplotlib.pyplot.style.use('ggplot')
 
 def load_slack_stats():
