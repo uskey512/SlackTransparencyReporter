@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import json
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot
 import requests
 
 import pandas
@@ -17,8 +14,6 @@ SLACK_INHOOK_URL = os.getenv("SLACK_INHOOK_URL")
 CSV_FILE_NAME    = "/tmp/slack_rate.csv"
 GRAPH_FILE_NAME  = "/tmp/message_rate.png"
 
-matplotlib.pyplot.style.use('ggplot')
-
 def load_slack_stats():
     r = requests.get(SLACK_STATS_URL, headers={"cookie":SLACK_LOGIN_COOKIE})
     f = open(CSV_FILE_NAME, 'w')
@@ -26,29 +21,6 @@ def load_slack_stats():
     f.close()
 
     return pandas.read_csv(CSV_FILE_NAME)
-
-def write_graph_file(data_farame):
-    dataframe = data_farame.iloc[:, [0, 12, 13, 14]]
-    dataframe = dataframe.set_index('Date')
-    dataframe *= 100
-
-    dataframe.columns = ['Public', 'Private', 'DM']
-    dataframe.index = dataframe.index.map(
-        lambda x: str(x[5:].replace('-', '/')))
-    term = dataframe.index[0] + '-' + dataframe.index[6]
-    dataframe.index.name = ""
-
-    dataframe.plot(
-        sharex=True,
-        xlim=[-0.1, 6.1],
-        ylim=[0, 102],
-        marker='o',
-        y=dataframe.columns,
-        alpha=0.8,
-        figsize=(16, 9))
-    matplotlib.pyplot.xticks(range(0, 7), dataframe.index)
-    matplotlib.pyplot.title(term, size=18)
-    matplotlib.pyplot.savefig(GRAPH_FILE_NAME)
 
 def send_slack_message(df):
     post_type = ['Public', 'Private', 'DM']
@@ -91,7 +63,6 @@ def get_diff_message(row, digits):
 
 def main():
     dataframe = load_slack_stats()
-    # write_graph_file(dataframe)
     send_slack_message(dataframe)
 
 if __name__ == '__main__': main()
