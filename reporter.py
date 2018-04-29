@@ -23,7 +23,6 @@ SLACK_STATS_RANGE  = os.getenv("SLACK_STATS_RANGE", 7)
 CSV_FILE_NAME    = "/tmp/slack_rate.csv"
 GRAPH_FILE_NAME  = "/tmp/message_rate.png"
 
-
 def load_slack_stats():
     url = "https://{0}/stats/export?type=overview&date_range={1}d".format(SLACK_DOMAIN, (SLACK_STATS_RANGE + 1))
 
@@ -47,7 +46,7 @@ def write_graph_file(data_farame):
 
     dataframe.plot(
         sharex=True,
-        xlim=[-0.1, float(len(dataframe.index)) - 0.9],
+        xlim=[-0.2, float(len(dataframe.index)) - 0.8],
         ylim=[0, 102],
         marker='o',
         y=dataframe.columns,
