@@ -53,7 +53,7 @@ def write_graph_file(data_farame):
         y=dataframe.columns,
         alpha=0.8,
         figsize=(16, 9))
-    matplotlib.pyplot.xticks(range(0, SLACK_STATS_RANGE - 1), dataframe.index)
+    matplotlib.pyplot.xticks(range(0, SLACK_STATS_RANGE), dataframe.index)
     matplotlib.pyplot.title(term, size=18)
     matplotlib.pyplot.savefig(GRAPH_FILE_NAME)
 
